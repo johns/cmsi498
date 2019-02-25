@@ -28,20 +28,20 @@ Suppose we have only observational data as the network parameters in the model a
 2.  If such a set of variables can be found, write the adjustment formula that would be used to compute the causal query from the observational parameters.
 
 1\.  *P*(*Z*|*do*(*X*))
->  1.  TODO
->  2.  TODO
+>  1.  S = {C}, S = {A} where S are backdoor admissible sets
+>  2.  sum over c: P(Z=z|X=x, C=c)P(C=c)
 
 2\.  *P*(*B*|*do*(*A*))
->  1.  TODO
->  2.  TODO
+>  1.  S = {Y}, S = {Z} where S is a backdoor admissible set
+>  2.  sum over y: P(B=b|A=a, Y=y)P(Y=y) on S = {Y}
 
 3\.  *P*(*Z*|*do*(*C*))
->  1.  TODO
->  2.  TODO
+>  1.  S = {} where S is the backdoor admissible set. The backdoor criterion is not applicable because all spurious paths from C -> Z are blocked when C is intervened upon.
 
 4\.  *P*(*Z*|*do*(*A*))
->  1.  TODO
->  2.  TODO
+>  1.  S = {C} where S is a backdoor admissible set.
+>  2.  sum over c: P(Z=z|A=a,C=c)P(C=c)
+
 
 ##  Problem 3
 
