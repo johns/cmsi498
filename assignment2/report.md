@@ -19,7 +19,8 @@ Once you've done this for each of the datasets, record the following in your rep
 
 ###  Part 2
 Using your knowledge about heterogeneous datasets, deduce the *true* network structure in the observational / un-intervened model by combining clues from each of the studies and pieces of background knowledge individually. Record the true model in your report and explain your steps in deducing it.
->  The links X -> Z and Y -> Z were present in all datasets, so we added these first. Given the background knowledge we were also knew X -> W. The only possible link not included was W -> Z while logically possible this was only present in one of the datasets.
+>  ![true_network_structure.png](true_network_structure.png)
+The links X -> Z and Y -> Z were present in all datasets, so we added these first. Given the background knowledge we were also knew X -> W. The only possible link not included was W -> Z while logically possible this was only present in one of the datasets.
 
 ##  Problem 2
 
