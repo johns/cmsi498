@@ -1,5 +1,5 @@
 #  Assignment 2: Back Doors, Do, and other Funny Sounding Things
-###  Jimmy Byrne, John Scott, and Jackson Watkins
+###  Jimmy Byrne, J Goocher, John Scott, and Jackson Watkins
 
 
 ##  Problem 1
@@ -10,14 +10,16 @@ Using Tetrad, navigate to the menu and choose Pipelines > Load Data and Search. 
 Once you've done this for each of the datasets, record the following in your report:
 
 1.  Record the graph recovered by Tetrad's structure learning (which examines only independence relationships) in your report.
->  TODO
+>  ![survey.png](survey.png)
+![sleep_study.png](sleep_study.png)
+![study_study.png](study_study.png)
 
 2.  Tetrad will be unable to orient some of the edges, in which observationally equivalence edges will be represented with undirected edges. Explain why, in each dataset, those edges were not able to be oriented.
->  TODO
+>  Tetrad was unable to determine the causality between exercise and sleep in the study_study dataset. This could be caused merely by sampling variation or the details of the experiment obfuscating the relationship of exercise causing sleep.
 
 ###  Part 2
-Using your knowledge about heterogeneous datasets, deduce the *true* network structure in the observational / unintervened model by combining clues from each of the studies and pieces of background knowledge individually. Record the true model in your report and explain your steps in deducing it.
->  TODO
+Using your knowledge about heterogeneous datasets, deduce the *true* network structure in the observational / un-intervened model by combining clues from each of the studies and pieces of background knowledge individually. Record the true model in your report and explain your steps in deducing it.
+>  The links X -> Z and Y -> Z were present in all datasets, so we added these first. Given the background knowledge we were also knew X -> W. The only possible link not included was W -> Z while logically possible this was only present in one of the datasets.
 
 ##  Problem 2
 
