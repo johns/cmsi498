@@ -1,6 +1,5 @@
 '''
 Jimmy Byrne
-J Goocher
 John Scott
 Jackson Watkins
 
@@ -14,9 +13,7 @@ in both observational and experimental settings.
 
 import numpy as np
 import pandas as pd
-from sklearn import linear_model, preprocessing, tree
-from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, KBinsDiscretizer  # noqa: E501
-from sklearn.naive_bayes import GaussianNB
+from pomegranate import *
 
 
 COLUMNS = ["X", "Z", "Y", "M", "W"]  # noqa: E501
@@ -24,3 +21,10 @@ COLUMNS = ["X", "Z", "Y", "M", "W"]  # noqa: E501
 # reading training and test data
 obs_data = pd.read_csv('med_ex_obs.csv', names=COLUMNS)
 exp_data = pd.read_csv('med_ex_exp.csv', names=COLUMNS)
+
+obs_model = BayesianNetwork.from_samples(obs_data, name='obs_trained_bn', state_names=['X', 'Z', 'Y', 'M', 'W'])
+exp_model = BayesianNetwork.from_samples(exp_data, name='exp_trained_bn', state_names=['X', 'Z', 'Y', 'M', 'W'])
+
+# evidence = {}
+# obs_model_cpt = obs_model.predict_proba(evidence)
+# exp_model_cpt = obs_model.predict_proba(evidence)
