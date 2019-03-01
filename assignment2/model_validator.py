@@ -21,11 +21,13 @@ COLUMNS = ["X", "Z", "Y", "M", "W"]
 obs_data = pd.read_csv('med_ex_obs.csv', names=COLUMNS)
 exp_data = pd.read_csv('med_ex_exp.csv', names=COLUMNS)
 
-obs_model = BayesianNetwork.from_samples(obs_data, name='obs_trained_bn', state_names=['X', 'Z', 'Y', 'M', 'W'])
-exp_model = BayesianNetwork.from_samples(exp_data, name='exp_trained_bn', state_names=['X', 'Z', 'Y', 'M', 'W'])
+obs_model = BayesianNetwork.from_samples(
+    obs_data, name='obs_trained_bn', state_names=['X', 'Z', 'Y', 'M', 'W'])
+exp_model = BayesianNetwork.from_samples(
+    exp_data, name='exp_trained_bn', state_names=['X', 'Z', 'Y', 'M', 'W'])
 
-prob_W_is_1_obs = .5936
-prob_W_is_1_exp = .6021
+prob_W_is_1_obs = obs_data.groupby('W').count().iloc[1, 1]/10000
+prob_W_is_1_exp = exp_data.groupby('W').count().iloc[1, 1]/10000
 
 # Computing query on observational model
 evidence = ['0', None, None, None, '0']
