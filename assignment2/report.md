@@ -55,12 +55,12 @@ Using the model structure and datasets specified above, you are to produce a Pyt
 *  To do so, produce a script `model_validator.py` that computes *P*(*Y* = 1|*do*(*X* = *x*)) ∀*x* ∈ *X* (i.e., the causal effects of both drugs) from BOTH the observational and the experimental data.
 
 *  Record your strategy for doing so and the results of how those quantities compare across the datasets in your report.
->  TODO
+>  In order to do(X=x), we had to perform a backdoor. W followed the normal strategy while M fell under the backdoor edge cases. This resulted in P(Y=1 | do(X=0)) = P(Y=1 | X=0, W=0) * P(W=0) + P(Y=1 | X=0, W=1) * P(W=1) and P(Y=1 | do(X=1)) = P(Y=1 | X=1, W=0) * P(W=0) + P(Y=1 | X=1, W=1) * P(W=1). The observational dataset had a slightly higher recovery rate.
 
 2.  Suppose a patient presents with covariates *W* = 0, *M* = 0.
 
 *  Determine the optimal treatment to assign to this patient, showing the computations in a script `treatment_suggestion.py`. Record your strategy for making this determination in your report.
->  TODO
+>  Drug 0 is the optimal drug for patients with W=0 and M=0. This was found by finding whether X=0 or X=1 maximized the probability of recovery for a patient with W=0, M=0. P(Y=1 | X=0, W=0, M=0) was found for both the observational and experimental data, these where then averaged to provide an averaged recovery rate. This process was repeated for the case X=1 was given. The higher average recovery rate was selected as the best treatment.
 
 *  In the same script, determine the rate by which doctors "in the wild" are prescribing the optimal treatment for patients of this type (i.e., those for which *W* = 0, *M* = 0). Record your strategy for making this determination in your report.
->  TODO
+>  To determine the prescribing rate in the wild only references observational data. Therefore, P(X=0 | W=0, M=0) was calculated on the observational BN. The optimal treatment was prescribed 31.30% of the time.
