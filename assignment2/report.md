@@ -55,7 +55,7 @@ Using the model structure and datasets specified above, you are to produce a Pyt
 *  To do so, produce a script `model_validator.py` that computes *P*(*Y* = 1|*do*(*X* = *x*)) ∀*x* ∈ *X* (i.e., the causal effects of both drugs) from BOTH the observational and the experimental data.
 
 *  Record your strategy for doing so and the results of how those quantities compare across the datasets in your report.
->  In order to do(X=x), we had to perform a backdoor. W followed the normal stratagy while M fell under the backdoor edge cases. This resulted in P(Y=1 | do(X=0)) = P(Y=1 | X=0, W=0) * P(W=0) + P(Y=1 | X=0, W=1) * P(W=1) and P(Y=1 | do(X=1)) = P(Y=1 | X=1, W=0) * P(W=0) + P(Y=1 | X=1, W=1) * P(W=1). The observational dataset had a slightly higher recovery rate.
+>  In order to do(X=x), we had to perform a backdoor. W followed the normal strategy while M fell under the backdoor edge cases. This resulted in P(Y=1 | do(X=0)) = P(Y=1 | X=0, W=0) * P(W=0) + P(Y=1 | X=0, W=1) * P(W=1) and P(Y=1 | do(X=1)) = P(Y=1 | X=1, W=0) * P(W=0) + P(Y=1 | X=1, W=1) * P(W=1). The observational dataset had a slightly higher recovery rate.
 
 2.  Suppose a patient presents with covariates *W* = 0, *M* = 0.
 
