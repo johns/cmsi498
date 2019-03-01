@@ -12,14 +12,12 @@ Determines the optimal treatment to assign to the patient
 that represents the covariates W = 0, M = 0.
 '''
 
-import numpy as np
 import pandas as pd
-from pomegranate import *
+from pomegranate import BayesianNetwork
 
+COLUMNS = ["X", "Z", "Y", "M", "W"]
 
-COLUMNS = ["X", "Z", "Y", "M", "W"]  # noqa: E501
-
-# reading training and test data
+# Reading training and test data
 obs_data = pd.read_csv('med_ex_obs.csv', names=COLUMNS)
 exp_data = pd.read_csv('med_ex_exp.csv', names=COLUMNS)
 
@@ -28,19 +26,19 @@ exp_model = BayesianNetwork.from_samples(exp_data, name='exp_trained_bn', state_
 
 prob_Y_X_is_0 = 0
 prob_Y_X_is_1 = 0
-#X=0 obs
+# X=0 obs
 evidence = ['0', None, None, '0', '0']
 obs_model_cpt = obs_model.predict_proba(evidence)
 prob_Y_X_is_0 = prob_Y_X_is_0 + obs_model_cpt[2].parameters[0]['1']
-#X=1 obs
+# X=1 obs
 evidence = ['1', None, None, '0', '0']
 obs_model_cpt = obs_model.predict_proba(evidence)
 prob_Y_X_is_1 = prob_Y_X_is_1 + obs_model_cpt[2].parameters[0]['1']
-#X=0 exp
+# X=0 exp
 evidence = ['0', None, None, '0', '0']
 exp_model_cpt = exp_model.predict_proba(evidence)
 prob_Y_X_is_0 = (prob_Y_X_is_0 + exp_model_cpt[2].parameters[0]['1']) / 2
-#X=1 exp
+# X=1 exp
 evidence = ['1', None, None, '0', '0']
 exp_model_cpt = exp_model.predict_proba(evidence)
 prob_Y_X_is_1 = (prob_Y_X_is_1 + exp_model_cpt[2].parameters[0]['1']) / 2
