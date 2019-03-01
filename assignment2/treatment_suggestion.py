@@ -54,5 +54,5 @@ else:
 
 evidence_bullet4 = [None, None, None, '0', '0']
 obs_model_cpt_bullet4 = obs_model.predict_proba(evidence_bullet4)
-print("In the wild, the probability patients where W=0 and M=0 are perscribed the optimal drug is ", end='')
+print("In the wild (and where W=0 and M=0), the probability patients are prescribed the optimal drug is ", end='')
 print(obs_model_cpt_bullet4[0].parameters[0]['0'])
