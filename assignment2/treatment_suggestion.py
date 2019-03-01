@@ -50,9 +50,9 @@ print(prob_Y_X_is_0)
 print("P(Y=1|X=1, W=0, M=0) = ", end='')
 print(prob_Y_X_is_1)
 if prob_Y_X_is_0 > prob_Y_X_is_1:
-    print("Drug 0 is the optimal treatment for patients where X=0 and M=0")
+    print("Drug 0 is the optimal treatment for patients where W=0 and M=0")
 else:
-    print("Drug 1 is the optimal treatment for patients where X=0 and M=0")
+    print("Drug 1 is the optimal treatment for patients where W=0 and M=0")
 
 evidence_bullet4 = [None, None, None, '0', '0']
 obs_model_cpt_bullet4 = obs_model.predict_proba(evidence_bullet4)
