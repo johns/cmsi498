@@ -1,8 +1,14 @@
 '''
-  mab_sim.py
-  
-  Simulation suite for comparing different Action Selection Rule
-  performance on traditional Multi-Armed Bandit Problems
+Jimmy Byrne
+J Goocher
+John Scott
+Jackson Watkins
+
+mab_sim.py
+
+CMSI 498 Assignment 4
+Simulation suite for comparing different Action Selection Rule
+performance on traditional Multi-Armed Bandit Problems
 '''
 
 import numpy as np
@@ -72,11 +78,11 @@ def run_sim ():
     '''
     ag_reg = np.zeros((AG_COUNT, T))
     ag_opt = np.zeros((AG_COUNT, T))
-    
+
     # Reset agent histories for this MC repetition
     for a in agents:
         a.clear_history()
-        
+
     for t in range(T):
         # Find the optimal action and reward rate for this t
         best_a_t = np.argmax(P_R)
@@ -90,7 +96,7 @@ def run_sim ():
             regret_t = max_t - r_t
             ag_reg[a_ind, t] += regret_t
             ag_opt[a_ind, t] += int(a_t == best_a_t)
-                
+
     return [ag_reg, ag_opt]
 
 def gen_graph (cum_reg, cum_opt, names, colors):
@@ -107,7 +113,7 @@ def gen_graph (cum_reg, cum_opt, names, colors):
     fig['layout']['xaxis2'].update(title='Trial', range=[0, T])
     fig['layout']['yaxis1'].update(title='Probability of Optimal Action')
     fig['layout']['yaxis2'].update(title='Cumulative Regret')
-    
+
     # Plot cumulative regret
     for a in range(AG_COUNT):
         trace = go.Scatter(
@@ -119,7 +125,7 @@ def gen_graph (cum_reg, cum_opt, names, colors):
             name = names[a]
         )
         fig.append_trace(trace, 1, 1)
-        
+
     # Plot optimal arm choice
     for a in range(AG_COUNT):
         trace = go.Scatter(
@@ -132,7 +138,7 @@ def gen_graph (cum_reg, cum_opt, names, colors):
             showlegend = False
         )
         fig.append_trace(trace, 1, 2)
-    
+
     py.offline.plot(fig, filename=("./cum_reg_" + SIM_NAME + ".html"))
 
 
@@ -142,12 +148,12 @@ def gen_graph (cum_reg, cum_opt, names, colors):
 
 if __name__ == "__main__":
     print("=== MAB Simulations Beginning ===")
-    
+
     # Record-keeping data structures across MC simulations
     round_reg = np.zeros((AG_COUNT, T))
     round_opt = np.zeros((AG_COUNT, T))
     cum_reg = np.zeros((AG_COUNT, T))
-    
+
     # MAIN WORKHORSE - Runs MC repetitions of simulations in parallel:
     sim_results = Parallel(n_jobs=N_CORES, verbose=1)(delayed(run_sim)() for i in range(N))
     for (ind, r) in enumerate(sim_results):
@@ -160,6 +166,5 @@ if __name__ == "__main__":
     cum_reg = cum_reg / N
     cum_opt = round_opt / N
     gen_graph(cum_reg, cum_opt, ag_names, ag_colors)
-    
+
     print("[!] Simulations Completed")
-    
