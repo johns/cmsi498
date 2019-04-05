@@ -10,6 +10,7 @@ CMSI 498 Assignment 4
 Agent specifications implementing Action Selection Rules.
 '''
 
+import random
 import numpy as np
 
 # ----------------------------------------------------------------
@@ -25,6 +26,7 @@ class MAB_Agent:
     def __init__ (self, K):
         # TODO: Placeholder: add whatever you want here
         self.K = K
+        self.history = [[], [], [],[]]
 
     def give_feedback (self, a_t, r_t):
         '''
@@ -32,15 +34,15 @@ class MAB_Agent:
         in the most recent trial, allowing the agent to update its
         history
         '''
-        pass
-
+        self.history[a_t].append(r_t)
+        
     def clear_history(self):
         '''
         IMPORTANT: Resets your agent's history between simulations.
         No information is allowed to transfer between each of the N
         repetitions
         '''
-        pass
+        self.history = [[], [], [], []]
 
 
 # ----------------------------------------------------------------
@@ -57,8 +59,16 @@ class Greedy_Agent(MAB_Agent):
         MAB_Agent.__init__(self, K)
 
     def choose (self, *args):
-        # TODO: Currently makes a random choice -- change!
-        return np.random.choice(list(range(self.K)))
+        ad_values = []
+        for ad in self.history:
+            cumulative_reward = sum(ad)
+            n = len(ad)
+            if n == 0 :
+                ad_values.append(1)
+            else:
+                ad_values.append(cumulative_reward/n)
+
+        return ad_values.index(max(ad_values))
 
 
 class Epsilon_Greedy_Agent(MAB_Agent):
@@ -70,10 +80,22 @@ class Epsilon_Greedy_Agent(MAB_Agent):
 
     def __init__ (self, K, epsilon):
         MAB_Agent.__init__(self, K)
+        self.epsilon = epsilon
 
     def choose (self, *args):
-        # TODO: Currently makes a random choice -- change!
-        return np.random.choice(list(range(self.K)))
+        if random.uniform(0, 1) < self.epsilon:
+            return np.random.choice(list(range(self.K)))
+
+        ad_values = []
+        for ad in self.history:
+            cumulative_reward = sum(ad)
+            n = len(ad)
+            if n != 0 :
+                ad_values.append(cumulative_reward/n)
+            else:
+                ad_values.append(1)
+
+        return ad_values.index(max(ad_values))
 
 
 class Epsilon_First_Agent(MAB_Agent):
@@ -84,10 +106,24 @@ class Epsilon_First_Agent(MAB_Agent):
 
     def __init__ (self, K, epsilon, T):
         MAB_Agent.__init__(self, K)
+        self.epsilon = epsilon
+        self.T = T
+        self.numberOfTrials = 0
 
     def choose (self, *args):
-        # TODO: Currently makes a random choice -- change!
-        return np.random.choice(list(range(self.K)))
+        if self.numberOfTrials < self.epsilon * self.T:
+            self.numberOfTrials += 1
+            return np.random.choice(list(range(self.K)))
+        ad_values = []
+        for ad in self.history:
+            cumulative_reward = sum(ad)
+            n = len(ad)
+            if n != 0 :
+                ad_values.append(cumulative_reward/n)
+            else:
+                ad_values.append(1)
+
+        return ad_values.index(max(ad_values))
 
 
 class Epsilon_Decreasing_Agent(MAB_Agent):
@@ -98,10 +134,34 @@ class Epsilon_Decreasing_Agent(MAB_Agent):
 
     def __init__ (self, K):
         MAB_Agent.__init__(self, K)
+        self.epsilon = .5
+        self.decay_rate = .001
+        self.counterTest = 0
+        self.totalCounterTest = 0
 
     def choose (self, *args):
-        # TODO: Currently makes a random choice -- change!
-        return np.random.choice(list(range(self.K)))
+        #test
+        self.totalCounterTest = self.totalCounterTest + 1
+        if self.totalCounterTest == 999:
+            print(self.counterTest)
+
+        self.epsilon = self.epsilon * (1 - self.decay_rate)
+        if random.uniform(0, 1) < self.epsilon:
+            #test
+            self.counterTest = self.counterTest + 1
+
+            return np.random.choice(list(range(self.K)))
+
+        ad_values = []
+        for ad in self.history:
+            cumulative_reward = sum(ad)
+            n = len(ad)
+            if n == 0 :
+                ad_values.append(1)
+            else:
+                ad_values.append(cumulative_reward/n)
+
+        return ad_values.index(max(ad_values))
 
 
 class TS_Agent(MAB_Agent):
