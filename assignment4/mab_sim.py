@@ -11,10 +11,10 @@ Simulation suite for comparing different Action Selection Rule
 performance on traditional Multi-Armed Bandit Problems
 '''
 
+import multiprocessing
 import numpy as np
 import plotly as py
 import plotly.graph_objs as go
-import multiprocessing
 from plotly import tools
 from joblib import Parallel, delayed
 from mab_agent import *
@@ -33,8 +33,8 @@ np.random.seed(0)  # For reproducible results
 # Reward Signal Probabilities
 # P(R_t = 1 | do(A_t))
 P_R = np.array(
-  # A =  0     1     2     3
-     [0.50, 0.60, 0.40, 0.30]
+    # A = 0    1    2    3
+    [0.50, 0.60, 0.40, 0.30]
 )
 K = len(P_R)
 
@@ -72,7 +72,7 @@ AG_COUNT = len(agents)
 # Simulation Functions
 # ----------------------------------------------------------------
 
-def run_sim ():
+def run_sim():
     '''
     Runs a single MC iteration of the simulation consisting of T trials.
     '''
@@ -99,7 +99,7 @@ def run_sim ():
 
     return [ag_reg, ag_opt]
 
-def gen_graph (cum_reg, cum_opt, names, colors):
+def gen_graph(cum_reg, cum_opt, names, colors):
     '''
     Reporting mechanism that generates graphical reports on the
     probability that each agent takes the optimal action and the
@@ -107,7 +107,7 @@ def gen_graph (cum_reg, cum_opt, names, colors):
     trial
     '''
     AG_COUNT = cum_reg.shape[0]
-    traces = []
+    trace = []
     fig = tools.make_subplots(rows=1, cols=2, subplot_titles=('Probability of Optimal Action', 'Cumulative Regret'))
     fig['layout']['xaxis1'].update(title='Trial', range=[0, T])
     fig['layout']['xaxis2'].update(title='Trial', range=[0, T])
