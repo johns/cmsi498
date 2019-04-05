@@ -35,7 +35,7 @@ class MAB_Agent:
         history
         '''
         self.history[a_t].append(r_t)
-        
+
     def clear_history(self):
         '''
         IMPORTANT: Resets your agent's history between simulations.
@@ -114,6 +114,7 @@ class Epsilon_First_Agent(MAB_Agent):
         if self.numberOfTrials < self.epsilon * self.T:
             self.numberOfTrials += 1
             return np.random.choice(list(range(self.K)))
+
         ad_values = []
         for ad in self.history:
             cumulative_reward = sum(ad)
@@ -134,22 +135,14 @@ class Epsilon_Decreasing_Agent(MAB_Agent):
 
     def __init__ (self, K):
         MAB_Agent.__init__(self, K)
-        self.epsilon = .5
+        self.epsilon = .5 # play around with epsilon and decay for better results
         self.decay_rate = .001
-        self.counterTest = 0
-        self.totalCounterTest = 0
 
     def choose (self, *args):
-        #test
-        self.totalCounterTest = self.totalCounterTest + 1
-        if self.totalCounterTest == 999:
-            print(self.counterTest)
-
+        self.epsilon = .5 # play around with epsilon and decay for better results
+        self.decay_rate = .001
         self.epsilon = self.epsilon * (1 - self.decay_rate)
         if random.uniform(0, 1) < self.epsilon:
-            #test
-            self.counterTest = self.counterTest + 1
-
             return np.random.choice(list(range(self.K)))
 
         ad_values = []

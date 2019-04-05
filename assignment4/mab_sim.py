@@ -41,11 +41,11 @@ K = len(P_R)
 # Initialize learning agents; change these based on what the spec
 # asks you to plot on any given problem
 agents = [
-    # Greedy_Agent(K),
-    # Epsilon_Greedy_Agent(K, 0.1),
-    # Epsilon_First_Agent(K, 0.1, T),
+    Greedy_Agent(K),
+    Epsilon_Greedy_Agent(K, 0.1),
+    Epsilon_First_Agent(K, 0.1, T),
     Epsilon_Decreasing_Agent(K),
-    # TS_Agent(K)
+    TS_Agent(K)
 ]
 # Change these to describe the agents being compared in a given
 # simulation
