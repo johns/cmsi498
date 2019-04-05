@@ -105,3 +105,6 @@ venv.bak/
 
 # custom .gitignore file extensions for assignment4
 *.html
+
+# custom .gitignore file extensions for
+*.vscode
