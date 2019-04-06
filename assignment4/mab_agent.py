@@ -140,14 +140,14 @@ class Epsilon_Decreasing_Agent(MAB_Agent):
     def __init__ (self, K):
         MAB_Agent.__init__(self, K)
         self.epsilon = .2 # play around with epsilon and decay for better results
-        self.decay_rate = .01
+        self.decay_rate = .000275
 
     def clear_history(self):
         self.history = [[], [], [], []]
-        self.epsilon = .5
+        self.epsilon = .2
 
     def choose (self, *args):
-        self.epsilon = self.epsilon * (1 - self.decay_rate)
+        self.epsilon = self.epsilon - self.decay_rate
         if random.uniform(0, 1) < self.epsilon:
             return np.random.choice(list(range(self.K)))
 
@@ -174,5 +174,13 @@ class TS_Agent(MAB_Agent):
         MAB_Agent.__init__(self, K)
 
     def choose (self, *args):
-        # TODO: Currently makes a random choice -- change!
-        return np.random.choice(list(range(self.K)))
+        ad_beta_values = []
+        for ad in self.history:
+            wins = sum(ad)
+            losses = len(ad) - sum(ad)
+            if wins == 0 or losses == 0:
+                ad_beta_values.append(1)
+            else:
+                ad_beta_values.append(np.random.beta(wins, losses))
+
+        return ad_beta_values.index(max(ad_beta_values))

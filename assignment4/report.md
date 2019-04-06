@@ -20,7 +20,9 @@
 
 2. **Sim Results:** run the simulation script with 3 separate versions of the `Epsilon_Greedy_Agent`, parameterized by the 3 separate values of *ϵ* mentioned above, capture the resulting graph, and add it to your report.
 
-> TODO
+> ![epsilon_greedy_agent_05.png](epsilon_greedy_agent_05.png)
+![epsilon_greedy_agent_10.png](epsilon_greedy_agent_10.png)
+![epsilon_greedy_agent_15.png](epsilon_greedy_agent_15.png)
 
 ## Problem 3: The *ϵ*-First Player
 
@@ -30,7 +32,9 @@
 
 2. **Sim Results:** run the simulation script with 3 separate versions of the `Epsilon_First_Agent`, parameterized by the 3 separate values of *ϵ* that you mentioned above, capture the resulting graph, and add it to your report.
 
-> TODO
+> ![epsilon_first_agent_05.png](epsilon_first_agent_05.png)
+![epsilon_first_agent_05.png](epsilon_first_agent_05.png)
+![epsilon_first_agent_05.png](epsilon_first_agent_05.png)
 
 ## Problem 4: The *ϵ*-Decreasing Player
 
