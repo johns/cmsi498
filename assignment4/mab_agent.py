@@ -110,6 +110,10 @@ class Epsilon_First_Agent(MAB_Agent):
         self.T = T
         self.numberOfTrials = 0
 
+    def clear_history(self):
+        self.history = [[], [], [], []]
+        self.numberOfTrials = 0
+
     def choose (self, *args):
         if self.numberOfTrials < self.epsilon * self.T:
             self.numberOfTrials += 1
@@ -135,12 +139,14 @@ class Epsilon_Decreasing_Agent(MAB_Agent):
 
     def __init__ (self, K):
         MAB_Agent.__init__(self, K)
-        self.epsilon = .5 # play around with epsilon and decay for better results
-        self.decay_rate = .001
+        self.epsilon = .2 # play around with epsilon and decay for better results
+        self.decay_rate = .01
+
+    def clear_history(self):
+        self.history = [[], [], [], []]
+        self.epsilon = .5
 
     def choose (self, *args):
-        self.epsilon = .5 # play around with epsilon and decay for better results
-        self.decay_rate = .001
         self.epsilon = self.epsilon * (1 - self.decay_rate)
         if random.uniform(0, 1) < self.epsilon:
             return np.random.choice(list(range(self.K)))
