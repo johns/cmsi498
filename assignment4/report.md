@@ -65,17 +65,19 @@
 
 2. **Sim Results:** run the simulation script with the *best* versions of each of the previous 4 bandit players PLUS your new Thompson Sampling player. Record the graph and results in your report.
 
-> Greedy Agent: N/A
+> Reward Signal Probabilities: P_R = [0.50, 0.60, 0.40, 0.30]
+Greedy Agent: N/A
 Epsilon Greedy Agent: *ϵ* = 0.15
 Epsilon First Agent: *ϵ* = 0.10
-Epsilon Decreasing Agent: *ϵ* = 0.20
+Epsilon Decreasing Agent: *ϵ* = 0.20; decay_rate = 0.0003
 Thompson Sampling Agent: N/A
 ![all_agents.png](graphs/all_agents.png)
 
 3. **Compare:** Lastly, rerun the simulations with reward signals that are very similar (i.e., ~1 − 2% away from one another), and see how this modification changes the results (to do so, modify the `P_R` list in `mab_sim.py`)
 
-> TODO 
+> Reward Signal Probabilities: P_R = [0.50, 0.51, 0.52, 0.53]
+![similar_reward_agents.png](graphs/similar_reward_agents.png)
 
 4. **Reflect:** how did these approaches compare? Comment on the strengths of your Thompson Sampler as it might perform vs. the others if you did *not know* or did *not have* a *finite* time horizon, *T*.
 
-> TODO
+> The approach with the new reward signals (~1 − 2% away) for P_T would generate a larger variance in the probability of optimal action chosen and improve slightly in choosing the optimal action. If we did not know the time horizon, the Thompson Sampler agent could generate a beta value with a large variance causing it to explore other possible lower reward values rather than exploit high rewards. If there was no finite time horizon, the Thompson Sampler agent would never attempt to center over true rewards.
