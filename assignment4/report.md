@@ -50,7 +50,7 @@
 
 1. **Expectations:** in a sentence or two, describe how you used implemented your Thompson Sampling bandit player.
 
-> TODO
+> Our Thompson Sampling bandit player wil
 
 2. **Sim Results:** run the simulation script with the *best* versions of each of the previous 4 bandit players PLUS your new Thompson Sampling player. Record the graph and results in your report.
 

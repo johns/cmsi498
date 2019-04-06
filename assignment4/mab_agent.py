@@ -139,12 +139,12 @@ class Epsilon_Decreasing_Agent(MAB_Agent):
 
     def __init__ (self, K):
         MAB_Agent.__init__(self, K)
-        self.epsilon = .2 # play around with epsilon and decay for better results
-        self.decay_rate = .000275
+        self.epsilon = .23 # play around with epsilon and decay for better results
+        self.decay_rate = .00029
 
     def clear_history(self):
         self.history = [[], [], [], []]
-        self.epsilon = .2
+        self.epsilon = .23
 
     def choose (self, *args):
         self.epsilon = self.epsilon - self.decay_rate
