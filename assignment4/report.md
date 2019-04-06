@@ -10,7 +10,7 @@
 
 2. **Sim Results:** run the simulation script with *only* the `Greedy_Agent` (i.e., modify the `agents` list in the simulation configurations), capture the resulting graph, and add it to your report.
 
-> ![greedy_agent.png](greedy_agent.png)
+> ![greedy_agent.png](graphs/greedy_agent.png)
 
 ## Problem 2: The *ϵ*-Greedy Player
 
@@ -20,9 +20,12 @@
 
 2. **Sim Results:** run the simulation script with 3 separate versions of the `Epsilon_Greedy_Agent`, parameterized by the 3 separate values of *ϵ* mentioned above, capture the resulting graph, and add it to your report.
 
-> ![epsilon_greedy_agent_05.png](epsilon_greedy_agent_05.png)
-![epsilon_greedy_agent_10.png](epsilon_greedy_agent_10.png)
-![epsilon_greedy_agent_15.png](epsilon_greedy_agent_15.png)
+> *ϵ* = 0.05
+![epsilon_greedy_agent_05.png](graphs/epsilon_greedy_agent_05.png)
+*ϵ* = 0.10
+![epsilon_greedy_agent_10.png](graphs/epsilon_greedy_agent_10.png)
+*ϵ* = 0.15
+![epsilon_greedy_agent_15.png](graphs/epsilon_greedy_agent_15.png)
 
 ## Problem 3: The *ϵ*-First Player
 
@@ -32,9 +35,12 @@
 
 2. **Sim Results:** run the simulation script with 3 separate versions of the `Epsilon_First_Agent`, parameterized by the 3 separate values of *ϵ* that you mentioned above, capture the resulting graph, and add it to your report.
 
-> ![epsilon_first_agent_05.png](epsilon_first_agent_05.png)
-![epsilon_first_agent_05.png](epsilon_first_agent_05.png)
-![epsilon_first_agent_05.png](epsilon_first_agent_05.png)
+> *ϵ* = 0.05
+![epsilon_first_agent_05.png](graphs/epsilon_first_agent_05.png)
+*ϵ* = 0.10
+![epsilon_first_agent_10.png](graphs/epsilon_first_agent_10.png)
+*ϵ* = 0.15
+![epsilon_first_agent_15.png](graphs/epsilon_first_agent_15.png)
 
 ## Problem 4: The *ϵ*-Decreasing Player
 
@@ -44,21 +50,31 @@
 
 2. **Sim Results:** run the simulation script with 3 separate versions of the `Epsilon_Decreasing_Agent`, parameterized by the 3 separate cooling schedules that you mentioned above (these might be different by starting values of *ϵ*, rate of decrease, etc.), capture the resulting graph, and add it to your report.
 
-> TODO
+> *ϵ* = 0.20
+![epsilon_decreasing_agent_20.png](graphs/epsilon_decreasing_agent_20.png)
+*ϵ* = 0.25
+![epsilon_decreasing_agent_25.png](graphs/epsilon_decreasing_agent_25.png)
+*ϵ* = 0.30
+![epsilon_decreasing_agent_30.png](graphs/epsilon_decreasing_agent_30.png)
 
 ## Problem 5: The Thompson Sampling Player
 
 1. **Expectations:** in a sentence or two, describe how you used implemented your Thompson Sampling bandit player.
 
-> Our Thompson Sampling bandit player wil
+> Our Thompson Sampling bandit player will throw darts given wins and losses from each ad and attempt to take the max beta value that is calculated from all 4 ads.
 
 2. **Sim Results:** run the simulation script with the *best* versions of each of the previous 4 bandit players PLUS your new Thompson Sampling player. Record the graph and results in your report.
 
-> TODO
+> Greedy Agent: N/A
+Epsilon Greedy Agent: *ϵ* = 0.15
+Epsilon First Agent: *ϵ* = 0.10
+Epsilon Decreasing Agent: *ϵ* = 0.20
+Thompson Sampling Agent: N/A
+![all_agents.png](graphs/all_agents.png)
 
 3. **Compare:** Lastly, rerun the simulations with reward signals that are very similar (i.e., ~1 − 2% away from one another), and see how this modification changes the results (to do so, modify the `P_R` list in `mab_sim.py`)
 
-> TODO
+> TODO 
 
 4. **Reflect:** how did these approaches compare? Comment on the strengths of your Thompson Sampler as it might perform vs. the others if you did *not know* or did *not have* a *finite* time horizon, *T*.
 
