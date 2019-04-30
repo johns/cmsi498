@@ -55,15 +55,15 @@ class ValueIterationAgent(ValueEstimationAgent):
         self.iterations = iterations
         self.values = util.Counter()
         # A Counter is a dict with default 0
-        print "current self.values: " + str(self.values) + "\n"
-        print "mdp.getStates(): " + str(mdp.getStates()) + "\n"
-        print "mdp.getPossibleActions(state): " + \
-            str(mdp.getPossibleActions((0, 0))) + "\n"
-        print "mdp.getTransitionStatesAndProbs(state, action): " + \
-            str(mdp.getTransitionStatesAndProbs((0, 0), "north")) + "\n"
-        print "mdp.getReward(state, action, nextState): " + \
-            str(mdp.getReward((0, 0), "south", (0, 1))) + "\n"
-        print "mdp.isTerminal(state): " + str(mdp.isTerminal((0, 0))) + "\n"
+        # print "current self.values: " + str(self.values) + "\n"
+        # print "mdp.getStates(): " + str(mdp.getStates()) + "\n"
+        # print "mdp.getPossibleActions(state): " + \
+        #     str(mdp.getPossibleActions((0, 0))) + "\n"
+        # print "mdp.getTransitionStatesAndProbs(state, action): " + \
+        #     str(mdp.getTransitionStatesAndProbs((0, 0), "north")) + "\n"
+        # print "mdp.getReward(state, action, nextState): " + \
+        #     str(mdp.getReward((0, 0), "south", (0, 1))) + "\n"
+        # print "mdp.isTerminal(state): " + str(mdp.isTerminal((0, 0))) + "\n"
 
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
