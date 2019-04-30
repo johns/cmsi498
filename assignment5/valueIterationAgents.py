@@ -70,46 +70,36 @@ class ValueIterationAgent(ValueEstimationAgent):
         # for k in range(iterations):
         #     self.values[self.mdp.getReward()] =
 
-        def value_iterate(current_state, k):
-            if mdp.isTerminal(current_state):
-                # figure out the base case (vsubk)
-                self.values[current_state] = (1, "stay")
-                return 1.0
-            if k > MAX_K_GIVEN_IN_CMD_FIND_HOW_TO_GET_IT:
-                return 0
+        def value_iterate():
+            newValues = util.Counter()
+            for current_state_index in range(len(mdp.getStates())):
+                current_state = mdp.getStates()[current_state_index]
+                if mdp.isTerminal(current_state):
+                    newValues[current_state] = 0
+                    continue
+                listOfSummation = []
+                for current_action_index in range(len(mdp.getPossibleActions(current_state))):
+                    trans_state_and_probs = mdp.getTransitionStatesAndProbs(
+                        current_state, mdp.getPossibleActions(current_state)[current_action_index])
+                    currentSummation = 0
+                    for current_transition_state_and_prob in range(len(trans_state_and_probs)):
+                        states_and_prob = trans_state_and_probs[current_transition_state_and_prob]
+                        prob = states_and_prob[1]
+                        next_state = states_and_prob[0]
+                        reward = mdp.getReward(current_state, mdp.getPossibleActions(
+                            current_state)[current_action_index], next_state)
+                        currentSummation = currentSummation + (prob * (reward + (self.discount *
+                                                                                 self.values[next_state])))
+                    listOfSummation.append(currentSummation)
+                newValues[current_state] = max(listOfSummation)
+            self.values = newValues
 
-            listOfSummation = []
-            for current_action in range(len(mdp.getPossibleActions(current_state))):
-                trans_state_and_probs = mdp.getTransitionStatesAndProbs(
-                    current_state, mdp.getPossibleActions(current_state)[current_action])
-                currentSummation = 0
-                for current_transition_state_and_prob in range(len(trans_state_and_probs)):
-                    states_and_prob = trans_state_and_probs[current_transition_state_and_prob]
-                    prob = states_and_prob[1]
-                    next_state = states_and_prob[0]
-                    reward = mdp.getReward(
-                        current_state, mdp.getPossibleActions(current_state)[current_action], next_state)
-                    currentSummation = currentSummation + prob * \
-                        (reward + self.discount*value_iterate(next_state, k+1))
-                listOfSummation.append(
-                    (currentSummation, mdp.getPossibleActions(current_state)[current_action]))
-            bestI = 0
-            bestSum = 0
-            #print "listOfSummation: " + str(listOfSummation)
-            for i in range(len(listOfSummation)):
-                if listOfSummation[i][0] > bestSum:
-                    bestI = i
-                    bestSum = listOfSummation[i][0]
-            self.values[current_state] = listOfSummation[bestI]
-            return listOfSummation[bestI][0]
+        for state_index in range(len(mdp.getStates())):
+            self.values[mdp.getStates()[state_index]] = 0
 
-        average_summation = 0
         for i in range(self.iterations):
-            average_summation = average_summation + \
-                value_iterate(mdp.getStartState(), k=0) / self.iterations
-
-        value_iterate(mdp.getStartState(), 0)
-        print "self.values: " + str(self.values)
+            value_iterate()
+            print "currentValues: " + str(self.values) + "\n"
 
     def getValue(self, state):
         """
@@ -119,16 +109,24 @@ class ValueIterationAgent(ValueEstimationAgent):
 
     def computeQValueFromValues(self, state, action):
         """
-          TODO:
           Compute the Q-value of action in state from the
           value function stored in self.values.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        currentSummation = 0
+        for trans_state_and_probs_index in range(len(self.mdp.getTransitionStatesAndProbs(state, action))):
+            trans_state_and_probs = self.mdp.getPossibleActions(
+                state)[trans_state_and_probs_index]
+            for current_transition_state_and_prob in range(len(trans_state_and_probs)):
+                states_and_prob = trans_state_and_probs[current_transition_state_and_prob]
+                prob = states_and_prob[1]
+                next_state = states_and_prob[0]
+                reward = self.mdp.getReward(state, action, next_state)
+                currentSummation = currentSummation + (prob * (reward + (self.discount *
+                                                                         self.values[next_state])))
+        return currentSummation
 
     def computeActionFromValues(self, state):
         """
-          TODO:
           The policy is the best action in the given state
           according to the values currently stored in self.values.
 
@@ -136,8 +134,20 @@ class ValueIterationAgent(ValueEstimationAgent):
           there are no legal actions, which is the case at the
           terminal state, you should return None.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        listOfSummation = []
+        for current_action_index in range(len(self.mdp.getPossibleActions(state))):
+            trans_state_and_probs = self.mdp.getTransitionStatesAndProbs(
+                state, self.mdp.getPossibleActions(state)[current_action_index])
+            currentSummation = 0
+            for current_transition_state_and_prob in range(len(trans_state_and_probs)):
+                states_and_prob = trans_state_and_probs[current_transition_state_and_prob]
+                prob = states_and_prob[1]
+                next_state = states_and_prob[0]
+                reward = self.mdp.getReward(state, self.mdp.getPossibleActions(
+                    state)[current_action_index], next_state)
+                currentSummation = currentSummation + (prob * (reward + (self.discount *
+                                                                         self.values[next_state])))
+            listOfSummation.append(currentSummation)
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
