@@ -147,7 +147,19 @@ class ValueIterationAgent(ValueEstimationAgent):
                     state)[current_action_index], next_state)
                 currentSummation = currentSummation + (prob * (reward + (self.discount *
                                                                          self.values[next_state])))
-            listOfSummation.append(currentSummation)
+            listOfSummation.append(
+                (currentSummation, self.mdp.getPossibleActions(state)[current_action_index]))
+
+        if(self.mdp.isTerminal(state)):
+            return None
+
+        bestI = 0
+        bestSum = 0
+        for i in range(len(listOfSummation)):
+            if listOfSummation[i][0] > bestSum:
+                bestI = i
+                bestSum = listOfSummation[i][0]
+        return listOfSummation[bestI][1]
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
