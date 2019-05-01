@@ -198,15 +198,37 @@ class ApproximateQAgent(PacmanQAgent):
           Should return Q(state,action) = w * featureVector
           where * is the dotProduct operator
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        featureVector = self.featExtractor.getFeatures(state, action)
+        # print("feature Vector: "+str(featureVector))
+        current_summation = 0
+        for key in featureVector:
+            current_summation = featureVector[key] * \
+                self.getWeights()[key] + current_summation
+            # print("featureVector[key]: " + str(featureVector[key]))
+            #print("getweights[key]: " + str(self.getWeights()[key]))
+        return current_summation
 
     def update(self, state, action, nextState, reward):
         """
            Should update your weights based on transition
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        max_a = None
+        for next_action in self.getLegalActions(state):
+            if max_a < self.getQValue(nextState, next_action):
+                max_a = self.getQValue(nextState, next_action)
+        # print("reward: " + str(reward))
+        # print("max_a: " + str(max_a))
+        # print("Q value: "+str(self.getQValue(state, action)))
+        difference = (reward + self.discount * max_a) - \
+            self.getQValue(state, action)
+        w_i = self.getWeights()[(state, action)] + self.alpha * difference * \
+            self.featExtractor.getFeatures(state, action)[(state, action)]
+        # print("IMPORTANT featExt.getFeatures(state, action)[(state, action)]: " + str(
+        #    self.featExtractor.getFeatures(state, action)[(state, action)]))
+        # print("self.alpha: " + str(self.alpha))
+        # print("difference: " + str(difference))
+        # print("W_I :"+str(w_i))
+        self.getWeights()[(state, action)] = w_i
 
     def final(self, state):
         "Called at the end of each game."
@@ -215,6 +237,7 @@ class ApproximateQAgent(PacmanQAgent):
 
         # did we finish training?
         if self.episodesSoFar == self.numTraining:
-            # you might want to print your weights here for debugging
+                # you might want to print your weights here for debugging
+
             "*** YOUR CODE HERE ***"
             pass
