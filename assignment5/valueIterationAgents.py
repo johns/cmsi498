@@ -117,8 +117,6 @@ class ValueIterationAgent(ValueEstimationAgent):
                 state)[trans_state_and_probs_index]
             for current_transition_state_and_prob in range(len(trans_state_and_probs)):
                 states_and_prob = trans_state_and_probs[current_transition_state_and_prob]
-                print("HEHEHEHEHEEEEERRRRRRREEEEEEEE")
-                print(str(len(states_and_prob)))
                 prob = states_and_prob[1]
                 next_state = states_and_prob[0]
                 reward = self.mdp.getReward(state, action, next_state)
@@ -160,7 +158,6 @@ class ValueIterationAgent(ValueEstimationAgent):
             if listOfSummation[i][0] > bestSum:
                 bestI = i
                 bestSum = listOfSummation[i][0]
-        print(bestI)
         return listOfSummation[bestI][1]
 
     def getPolicy(self, state):
