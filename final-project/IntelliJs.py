@@ -155,13 +155,27 @@ class OffensiveReflexAgent(ReflexCaptureAgent):
   isBlue = None
   oldScore = None
   isAttacker = True
+  oldTimeLeft = None
 
   def getFeatures(self, gameState, action):
     features = util.Counter()
     successor = self.getSuccessor(gameState, action)
-    foodList = self.getFood(successor).asList()    
+    foodList = self.getFood(gameState).asList()    
     features['successorScore'] = -len(foodList)#self.getScore(successor)
     self.justDied = False
+
+    if self.oldTimeLeft == None:
+      self.oldTimeLeft = gameState.data.timeleft
+    
+    if gameState.data.timeleft > self.oldTimeLeft :
+      self.foodOnAgent = 0
+      self.foodOnAgentOnDead = 0
+      self.totalUnreturnedFood = len(self.getFood(gameState).asList())
+      self.returnHome = False
+      self.justDied = False
+      self.oldScore = None
+
+    self.oldTimeLeft = gameState.data.timeleft
 
     if self.oldScore == None:
       self.oldScore = gameState.getScore()
@@ -174,15 +188,15 @@ class OffensiveReflexAgent(ReflexCaptureAgent):
 
     if len(self.riskIndex) == 0 :
       for pelletNum in range(len(foodList)):
-        self.riskIndex[pelletNum] = 1
+        self.riskIndex[pelletNum] = 1 + pelletNum * .1
         
 
     if self.totalUnreturnedFood == None:
-      self.totalUnreturnedFood = len(self.getFood(successor).asList())
+      self.totalUnreturnedFood = len(self.getFood(gameState).asList())
 
-    if self.totalUnreturnedFood - self.foodOnAgent > len(self.getFood(successor).asList()):
+    if self.totalUnreturnedFood - self.foodOnAgent > len(self.getFood(gameState).asList()):
       self.foodOnAgent += 1
-    elif self.totalUnreturnedFood - self.foodOnAgent < len(self.getFood(successor).asList()):
+    elif self.totalUnreturnedFood - self.foodOnAgent < len(self.getFood(gameState).asList()):
       self.foodOnAgentOnDeath = self.foodOnAgent
       self.foodOnAgent = 0
       self.justDied = True
@@ -190,24 +204,31 @@ class OffensiveReflexAgent(ReflexCaptureAgent):
     if self.isBlue and self.oldScore - gameState.getScore() > 0:
       self.returnHome = False
       self.foodOnAgent = 0
-      self.totalUnreturnedFood = len(self.getFood(successor).asList())
+      self.totalUnreturnedFood = len(self.getFood(gameState).asList())
       self.oldScore = gameState.getScore()
     elif (not self.isBlue) and self.oldScore - gameState.getScore() < 0:
       self.returnHome = False
       self.foodOnAgent = 0
-      self.totalUnreturnedFood = len(self.getFood(successor).asList())
+      self.totalUnreturnedFood = len(self.getFood(gameState).asList())
       self.oldScore = gameState.getScore()
 
     #Sudo code
     #updateRiskIndex
     if self.justDied:
       for i in range(self.foodOnAgentOnDeath, self.totalUnreturnedFood+1):
-        self.riskIndex[i] = self.riskIndex[i] + (.3 * i)
+        self.riskIndex[i] = self.riskIndex[i] + (.4 * i)
+      for z in range(0, self.foodOnAgentOnDeath):
+        self.riskIndex[z] = self.riskIndex[z] + (.1 * z)
     else:
       for i in range(self.foodOnAgent+1):
-        self.riskIndex[i] = self.riskIndex[i] - (.1 * (self.foodOnAgent+1 - i))
+        self.riskIndex[i] = self.riskIndex[i] - (.01 * (self.foodOnAgent+1 - i))
 
+    #print(self.riskIndex)
+    #print(self.foodOnAgent)
     if self.riskIndex[(self.foodOnAgent)] > 1.5:
+      self.returnHome = True
+    
+    if gameState.getScore() == 0 and self.foodOnAgent >= 1:
       self.returnHome = True
 
     # Compute distance to the nearest food
